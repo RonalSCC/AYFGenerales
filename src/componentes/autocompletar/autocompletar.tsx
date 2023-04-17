@@ -363,11 +363,12 @@ export const Autocompletar = (inProps: AutocompletarProps) => {
       {
         state.open  && (
           <Fade in unmountOnExit  >
-            <List ref={ listRef } dense sx={{ ...getSxPropsList() }} >
+            <List disablePadding={true} ref={ listRef } dense sx={{ ...getSxPropsList() }} >
               {
                 state.dataSource.map((option, index) => {
                   return (
                     <ListItem
+                      disablePadding={true}
                       dense
                       key={ option.value }
                       onMouseDown={ () => { handleSelected(option) } }
