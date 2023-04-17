@@ -78,7 +78,7 @@ const tryGetVersionErp = () => {
     SITE_URL: siteUrl,
     TOKEN: resolveToken(),
     VERSION_ERP: version_erp,
-    BASE_URL: siteUrl + '/' + version_erp
+    BASE_URL: process.env.NODE_ENV === 'production' ? siteUrl + '/' + version_erp : ''
   }
   
   

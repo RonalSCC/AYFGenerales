@@ -1,11 +1,9 @@
-// import type axios from 'axios/dist/node/axios.cjs';
-import IRespuestaGeneral  from './interfaces/IRespuestaGeneral';
-import IErrorGeneral from './interfaces/IErrorGeneral';
 import ReactDOM from 'react-dom/client';
 import {Alert, AlertTitle, CircularProgress, Stack, Typography } from '@mui/material';
 import AYF from '../_AYF_/ayf';
 import axios from 'axios';
 import React from 'react';
+import { IErrorGeneral, IRespuestaGeneral, RequestAYF } from './interfaces';
 
 const alertDiv = ReactDOM.createRoot(
     document.getElementById('alerts') as HTMLElement
@@ -15,21 +13,11 @@ const loaderDiv = ReactDOM.createRoot(
     document.getElementById('loaderAyf') as HTMLElement
 );
 
-const URLBase = AYF.BASE_URL;
 
-export interface SendRequestAxios {
-    urlServicio: string,
-    body?: any,
-    headers?: any,
-    showLoader?:boolean 
-}
+const axiosRequest = axios.create({
+    baseURL: AYF.BASE_URL
+});
 
-export interface RequestAYF {
-    post(DatosEnvio:SendRequestAxios): Promise<IRespuestaGeneral>,
-    get(DatosEnvio:SendRequestAxios): Promise<IRespuestaGeneral>,
-    delete(DatosEnvio:SendRequestAxios): Promise<IRespuestaGeneral>,
-    put(DatosEnvio:SendRequestAxios): Promise<IRespuestaGeneral>,
-}
 
 /**
  * @description Crea una solicitud REST
@@ -52,8 +40,8 @@ export const SendRequest: RequestAYF = {
             VerOcultarLoader(true);
         }
 
-        return await ObtenerConfiguracionPromiseRespuesta(axios.post(
-            URLBase + urlServicio, 
+        return await ObtenerConfiguracionPromiseRespuesta(axiosRequest.post(
+            urlServicio, 
             CambiarVaciosPorNull(body),
             {
                 headers: getHeadersConToken(headers)
@@ -71,8 +59,8 @@ export const SendRequest: RequestAYF = {
         if (showLoader == true) {
             VerOcultarLoader(true);
         }
-        return await ObtenerConfiguracionPromiseRespuesta(axios.get(
-            URLBase + urlServicio, 
+        return await ObtenerConfiguracionPromiseRespuesta(axiosRequest.get(
+            urlServicio, 
             {
                 params: CambiarVaciosPorNull(body),
                 headers: getHeadersConToken(headers)
@@ -90,8 +78,8 @@ export const SendRequest: RequestAYF = {
         if (showLoader == true) {
             VerOcultarLoader(true);
         }
-        return await ObtenerConfiguracionPromiseRespuesta(axios.delete(
-            URLBase + urlServicio,
+        return await ObtenerConfiguracionPromiseRespuesta(axiosRequest.delete(
+            urlServicio,
             {
                 params:CambiarVaciosPorNull(body),
                 headers: getHeadersConToken(headers)
@@ -109,8 +97,8 @@ export const SendRequest: RequestAYF = {
         if (showLoader == true) {
             VerOcultarLoader(true);
         }
-        return await ObtenerConfiguracionPromiseRespuesta(axios.put(
-            URLBase + urlServicio,
+        return await ObtenerConfiguracionPromiseRespuesta(axiosRequest.put(
+            urlServicio,
             CambiarVaciosPorNull(body),
             {
                 headers: getHeadersConToken(headers)
